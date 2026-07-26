@@ -3,7 +3,7 @@
 .env.*
 !.env.example
 *.env
-#PERSONAL.md
+PERSONAL.md
 
 # Local athlete data and generated plans
 plans/

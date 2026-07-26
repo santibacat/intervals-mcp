@@ -1,0 +1,47 @@
+[project]
+name = "intervals-mcp"
+version = "0.1.0"
+description = "Safe Intervals.icu client and MCP server for AI-assisted draft training plans"
+readme = "README.md"
+authors = [
+    { name = "Santi Bacat", email = "santibacat@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.28.1",
+    "pydantic-settings>=2.14.2",
+]
+
+[project.scripts]
+intervals-mcp = "intervals_mcp.mcp_server:main"
+intervals-mcp-cli = "intervals_mcp.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.11.23,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "respx>=0.23.1",
+    "ruff>=0.15.22",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+packages = ["intervals_mcp"]

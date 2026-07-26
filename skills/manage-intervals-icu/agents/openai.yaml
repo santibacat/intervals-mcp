@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Intervals.icu"
+  short_description: "Safely build and revise training plans"
+  default_prompt: "Use $manage-intervals-icu to read my personal training context, inspect Intervals.icu, and create a safe draft plan."

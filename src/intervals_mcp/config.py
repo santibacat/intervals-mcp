@@ -11,17 +11,29 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_file=".env",
-        env_prefix="INTERVALS_",
+        env_prefix="",
         extra="ignore",
+        populate_by_name=True,
     )
 
-    intervals_api_key: SecretStr
-    intervals_athlete_id: str = "0"
-    intervals_base_url: str = "https://intervals.icu/api/v1"
-    draft_prefix: str = "[IA]"
-    managed_marker: str = "[intervals-mcp:managed]"
-    personal_context_file: str = "PERSONAL.md"
-    request_timeout_seconds: float = Field(default=20.0, gt=0, le=120)
+    intervals_api_key: SecretStr = Field(validation_alias="INTERVALS_API_KEY")
+    intervals_athlete_id: str = Field(default="0", validation_alias="INTERVALS_ATHLETE_ID")
+    intervals_base_url: str = Field(
+        default="https://intervals.icu/api/v1", validation_alias="INTERVALS_BASE_URL"
+    )
+    draft_prefix: str = Field(default="[IA]", validation_alias="INTERVALS_DRAFT_PREFIX")
+    managed_marker: str = Field(
+        default="[intervals-mcp:managed]", validation_alias="INTERVALS_MANAGED_MARKER"
+    )
+    personal_context_file: str = Field(
+        default="PERSONAL.md", validation_alias="INTERVALS_PERSONAL_CONTEXT_FILE"
+    )
+    request_timeout_seconds: float = Field(
+        default=20.0,
+        gt=0,
+        le=120,
+        validation_alias="INTERVALS_REQUEST_TIMEOUT_SECONDS",
+    )
 
 
 @lru_cache

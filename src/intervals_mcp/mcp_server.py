@@ -104,6 +104,36 @@ async def get_training_context(oldest: str, newest: str) -> dict[str, Any]:
 
 
 @mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
+async def get_athlete_profile() -> dict[str, Any]:
+    """Read health and body-composition fields from the athlete profile only."""
+
+    profile_fields = {
+        "height",
+        "weight",
+        "body_fat",
+        "bodyFat",
+        "resting_hr",
+        "restingHR",
+        "max_hr",
+        "maxHR",
+    }
+    async with client_session() as client:
+        profile = await client.get_athlete_profile()
+    return {
+        "profile_metrics": {
+            key: value
+            for key, value in profile.items()
+            if key in profile_fields and value is not None
+        },
+        "available_profile_fields": sorted(key for key in profile if key in profile_fields),
+        "privacy": (
+            "Only body and health-related profile fields are returned; "
+            "contact and location fields are filtered."
+        ),
+    }
+
+
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_personal_context() -> dict[str, Any]:
     """Read durable athlete preferences and constraints before planning or editing."""
 

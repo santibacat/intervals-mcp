@@ -18,6 +18,7 @@ Use this reference only when maintaining the client or diagnosing API behavior. 
 | Activities | `GET /athlete/{id}/activities?oldest=...&newest=...` |
 | Wellness | `GET /athlete/{id}/wellness?oldest=...&newest=...` |
 | Calendar context | `GET /athlete/{id}/events?oldest=...&newest=...` |
+| Athlete profile | `GET /athlete/{id}` |
 
 Request only needed activity and wellness fields. Limit normal context reads to 6-12 weeks and never exceed 180 days in one MCP call.
 

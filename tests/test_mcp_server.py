@@ -36,6 +36,7 @@ async def test_mcp_surface_excludes_calendar_writes() -> None:
 
     assert set(tools_by_name) == {
         "get_training_context",
+        "get_athlete_profile",
         "get_personal_context",
         "set_personal_fact",
         "list_draft_plans",

@@ -10,6 +10,7 @@ Use the `intervals_icu` MCP server for live data and mutations. Keep the skill a
 ## Personal context first
 
 1. Call `get_personal_context` or read `intervals://personal-context` before every analysis, plan creation, revision, scheduling, or removal.
+   Use `get_athlete_profile` when body or health metrics are relevant.
 2. Treat it as durable user-provided context, but prefer a newer explicit statement when the conversation conflicts with memory.
 3. When the user states a durable goal, recurring availability, preference, performance marker, equipment fact, or constraint, call `set_personal_fact` before finishing. Reuse a stable `snake_case` key so corrections replace old values.
 4. Do not store hypotheticals or examples. “I never train Sunday” is durable; “for example, imagine I cannot train Sunday” is not.

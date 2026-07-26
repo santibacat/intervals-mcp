@@ -10,6 +10,7 @@ EXPECTED_TOOLS = {
     "get_personal_context",
     "set_personal_fact",
     "get_training_context",
+    "get_athlete_profile",
     "list_draft_plans",
     "get_draft_plan",
     "create_draft_plan",

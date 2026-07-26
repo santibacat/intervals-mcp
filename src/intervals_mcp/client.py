@@ -39,6 +39,12 @@ class IntervalsClient:
     def athlete_path(self) -> str:
         return f"/athlete/{self.settings.intervals_athlete_id}"
 
+    async def get_athlete_profile(self) -> dict[str, Any]:
+        """Read the athlete profile so the MCP can expose only relevant body metrics."""
+
+        data = await self._request("GET", self.athlete_path)
+        return dict(data)
+
     async def _request(self, method: str, path: str, **kwargs: Any) -> Any:
         try:
             response = await self._client.request(method, path, **kwargs)
@@ -222,10 +228,17 @@ class IntervalsClient:
             "ctl",
             "atl",
             "rampRate",
+            "weight",
             "restingHR",
             "hrv",
+            "hrvSDNN",
             "sleepSecs",
             "sleepScore",
+            "sleepQuality",
+            "avgSleepingHR",
+            "steps",
+            "vo2max",
+            "bodyFat",
             "soreness",
             "fatigue",
             "stress",
@@ -233,6 +246,9 @@ class IntervalsClient:
             "motivation",
             "injury",
             "readiness",
+            "spO2",
+            "systolic",
+            "diastolic",
         ]
         params = {
             "oldest": oldest.isoformat(),

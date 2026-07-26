@@ -104,6 +104,21 @@ async def get_training_context(oldest: str, newest: str) -> dict[str, Any]:
 
 
 @mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
+async def get_performance_curves(sport: str, curves: str = "42d") -> dict[str, Any]:
+    """Read power, pace, and heart-rate duration curves without modifying data."""
+
+    clean_sport = sport.strip()
+    clean_curves = curves.strip()
+    if not clean_sport:
+        raise ValueError("sport cannot be empty")
+    if not clean_curves or len(clean_curves) > 200:
+        raise ValueError("curves must be a non-empty Intervals.icu curve specification")
+    async with client_session() as client:
+        result = await client.get_performance_curves(clean_sport, clean_curves)
+    return {"sport": clean_sport, "curves": clean_curves, **result}
+
+
+@mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_athlete_profile() -> dict[str, Any]:
     """Read health and body-composition fields from the athlete profile only."""
 

@@ -20,6 +20,7 @@ Use the `intervals_icu` MCP server for live data and mutations. Keep the skill a
 ## Non-negotiable boundary
 
 - Read activities, wellness, calendar events, zones, and library data as needed.
+- Use `get_performance_curves` for power, pace, and heart-rate duration curves; keep the sport and period explicit.
 - Write only managed library plans whose description contains `[intervals-mcp:managed]`. Use `[IA]` as a short display convention for new names, not as the ownership credential.
 - Apply or remove only a complete managed-plan application through `schedule_draft_plan` or `unschedule_draft_plan`. Never create, edit, or delete arbitrary calendar events.
 - Treat relative dates such as “next Monday” as unresolved until converted to an ISO date and shown to the user.

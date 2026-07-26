@@ -66,6 +66,7 @@ The server exposes tools for:
 - Reading private athlete context with `get_personal_context` and `set_personal_fact`.
 - Reading filtered body and health profile metrics with `get_athlete_profile`.
 - Reading activities, wellness, and calendar data with `get_training_context` for ranges up to 180 days.
+- Reading power, pace, and heart-rate curves with `get_performance_curves`.
 - Listing and reading managed plans with `list_draft_plans` and `get_draft_plan`.
 - Creating, cloning, renaming, and editing private managed library plans.
 - Adding and updating structured workouts inside managed plans.

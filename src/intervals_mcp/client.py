@@ -228,6 +228,9 @@ class IntervalsClient:
             "ctl",
             "atl",
             "rampRate",
+            "ctlLoad",
+            "atlLoad",
+            "sportInfo",
             "weight",
             "restingHR",
             "hrv",
@@ -258,6 +261,20 @@ class IntervalsClient:
         data = await self._request("GET", f"{self.athlete_path}/wellness", params=params)
         return list(data)
 
+    async def get_performance_curves(self, sport: str, curves: str = "42d") -> dict[str, Any]:
+        """Read power, pace, and heart-rate duration curves for a sport and period."""
+
+        params = {"type": sport, "curves": curves}
+        endpoints = {
+            "power": f"{self.athlete_path}/power-curves",
+            "pace": f"{self.athlete_path}/pace-curves",
+            "heart_rate": f"{self.athlete_path}/hr-curves",
+        }
+        return {
+            name: await self._request("GET", path, params=params)
+            for name, path in endpoints.items()
+        }
+
     async def list_events(self, oldest: date, newest: date) -> list[dict[str, Any]]:
         params = {"oldest": oldest.isoformat(), "newest": newest.isoformat()}
         data = await self._request("GET", f"{self.athlete_path}/events", params=params)
@@ -267,6 +284,11 @@ class IntervalsClient:
         activities = await self.list_activities(oldest, newest)
         wellness = await self.list_wellness(oldest, newest)
         events = await self.list_events(oldest, newest)
+        for record in wellness:
+            ctl = record.get("ctl")
+            atl = record.get("atl")
+            if isinstance(ctl, (int, float)) and isinstance(atl, (int, float)):
+                record["tsb"] = round(ctl - atl, 2)
         return {
             "oldest": oldest.isoformat(),
             "newest": newest.isoformat(),

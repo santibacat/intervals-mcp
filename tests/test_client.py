@@ -62,6 +62,12 @@ class FakeIntervals:
             return httpx.Response(200, json=[])
         if request.method == "GET" and path == f"{base}/wellness":
             return httpx.Response(200, json=[])
+        if request.method == "GET" and path in {
+            f"{base}/power-curves",
+            f"{base}/pace-curves",
+            f"{base}/hr-curves",
+        }:
+            return httpx.Response(200, json={"curves": []})
         if request.method == "GET" and path == f"{base}/events":
             return httpx.Response(200, json=self.events)
         if request.method == "POST" and path == f"{base}/events/apply-plan":
@@ -149,6 +155,18 @@ async def test_create_and_edit_managed_draft(settings: Settings) -> None:
         assert renamed_hash != final_hash
 
     assert not any("/events" in path for _, path in fake.requests)
+
+
+@pytest.mark.asyncio
+async def test_reads_performance_curves(settings: Settings) -> None:
+    fake = FakeIntervals()
+    async with IntervalsClient(settings, transport=httpx.MockTransport(fake)) as client:
+        curves = await client.get_performance_curves("Run", "42d")
+
+    assert set(curves) == {"power", "pace", "heart_rate"}
+    assert all(
+        path.endswith(("/power-curves", "/pace-curves", "/hr-curves")) for _, path in fake.requests
+    )
 
 
 @pytest.mark.asyncio

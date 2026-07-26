@@ -11,6 +11,7 @@ Install the project and create your local configuration:
 ```bash
 uv sync --dev
 cp .env.example .env
+cp PERSONAL.example.md PERSONAL.md
 ```
 
 Set `INTERVALS_API_KEY` in `.env`, then register the local MCP server with Codex:
@@ -53,7 +54,7 @@ intervals-mcp ──────── Intervals.icu API
 
 - The **skill** teaches the LLM the training workflow, workout syntax, and safety guardrails.
 - The **MCP** keeps API access outside the conversation context and exposes typed operations.
-- `PERSONAL.md` stores stable athlete goals, availability, and preferences locally. It is intentionally ignored by Git.
+- `PERSONAL.example.md` is the tracked template; `PERSONAL.md` stores the active athlete's private context and is ignored by Git.
 - The Python client verifies that writes belong to the managed namespace.
 - Intervals.icu remains the dashboard, calendar, and analysis system.
 
@@ -79,7 +80,7 @@ Generic event create, edit, and delete operations are not exposed. Every mutatio
 
 ## Local personal memory
 
-`PERSONAL.md` is the active athlete's private memory and is ignored by Git. The skill requires reading it before analyzing or changing a plan. Durable information can be stored through `set_personal_fact`; reusing the same key replaces the previous value.
+Copy `PERSONAL.example.md` to `PERSONAL.md` and fill it with the active athlete's private memory. The local file is ignored by Git, and the skill requires reading it before analyzing or changing a plan. Durable information can be stored through `set_personal_fact`; reusing the same key replaces the previous value.
 
 Store only goals, events, recurring availability, preferences, performance markers, equipment, integrations, and training constraints. Never store examples, guesses, API keys, passwords, tokens, payment data, or sensitive health information unless explicitly requested.
 
